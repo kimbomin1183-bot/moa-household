@@ -133,9 +133,15 @@ async function initFirebase(){
  if(!firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith('YOUR_'))return;
  try{
   const {initializeApp}=await import('https://www.gstatic.com/firebasejs/13.4.0/firebase-app.js');
-  const {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,onAuthStateChanged,signOut}=await import('https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js');
+  const {getAuth,GoogleAuthProvider,signInWithPopup,signInWithRedirect,getRedirectResult,onAuthStateChanged,signOut}=await import('https://www.gstatic.com/firebasejs/13.4.0/firebase-auth.js');
   const {getFirestore}=await import('https://www.gstatic.com/firebasejs/13.4.0/firebase-firestore.js');
   const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);cloudReady=true;
+  try {
+  await getRedirectResult(auth);
+} catch(e) {
+  console.error('Google 로그인 결과 확인 실패:', e);
+  alert('로그인 결과 확인 실패: '+e.message);
+  }
   $('loginBtn').onclick=async()=>{
    try{
     const provider=new GoogleAuthProvider();
