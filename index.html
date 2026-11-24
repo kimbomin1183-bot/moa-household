@@ -146,7 +146,7 @@ async function initFirebase(){
    try{
     const provider=new GoogleAuthProvider();
     // 모바일 브라우저에서는 팝업 차단을 피하기 위해 리디렉션 로그인을 사용합니다.
-    if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) await signInWithRedirect(auth,provider);
+    await signInWithPopup(auth, provider);
     else await signInWithPopup(auth,provider);
    }catch(e){alert('로그인 실패: '+e.message)}
   };
